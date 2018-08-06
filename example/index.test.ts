@@ -3,6 +3,6 @@ import sum from "../src";
 
 describe("slack-logger", () => {
   it("should work", () => {
-    expect(sum(3, 5)).toEqual(8);
+    expect(sum(2, 5)).toEqual(7);
   });
 });
