@@ -6,7 +6,7 @@
 [![Version](https://img.shields.io/npm/v/slack-logger.svg)](http://npm.im/slack-logger)
 [![License](https://img.shields.io/npm/l/slack-logger.svg)](http://opensource.org/licenses/MIT)
 
-**Simple extensible one-way migration tool for performing various tasks in order in multiple environments.**
+**Bunyan-compatible logger that send pretty formatted messages to a Slack channel.**
 
 ![Example](https://raw.githubusercontent.com/stagnationlab/slack-logger/master/example/example.gif)
 
