@@ -1,10 +1,9 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": ["es2015"],
-    "rootDirs": ["src", "example"],
     "outDir": "build",
     "moduleResolution": "node",
+    "typeRoots": ["./types", "./node_modules/@types"],
 
     "declaration": true,
     "strict": true,
@@ -13,6 +12,8 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
 
     "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,

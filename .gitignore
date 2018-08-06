@@ -1,5 +1,6 @@
 node_modules
 coverage
 .idea
+.env
 coveralls.yml
 yarn-*.log
