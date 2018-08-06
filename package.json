@@ -1,0 +1,57 @@
+{
+  "name": "slack-logger",
+  "version": "1.0.0",
+  "description": "Bunyan-compatible logger that send pretty formatted messages to a Slack channel.",
+  "main": "build/src/index.js",
+  "types": "build/src/index.d.ts",
+  "scripts": {
+    "start": "yarn build && node build/example/index",
+    "build": "yarn tidy:build && tsc",
+    "lint": "tslint --project tsconfig.json --format codeFrame",
+    "lint-fix": "yarn lint --fix",
+    "prettier": "prettier --write src/**/*.ts example/**/*.ts",
+    "prettier-check": "prettier --list-different src/**/*.ts",
+    "tidy": "yarn tidy:build && yarn tidy:coverage",
+    "tidy:build": "rimraf build",
+    "tidy:coverage": "rimraf coverage",
+    "test": "jest",
+    "test-watch": "jest --watch --collectCoverage",
+    "coverage": "yarn tidy:coverage && jest --collectCoverage",
+    "audit": "yarn prettier && yarn build && yarn lint && yarn test",
+    "coveralls": "cat ./coverage/lcov.info | coveralls"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stagnationlab/slack-logger.git"
+  },
+  "keywords": [
+    "slack",
+    "log",
+    "logger",
+    "bunyan",
+    "pretty"
+  ],
+  "author": "Priit Kallas <kallaspriit@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/stagnationlab/slack-logger/issues"
+  },
+  "homepage": "https://github.com/stagnationlab/slack-logger#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/jest": "^23.3.1",
+    "@types/node": "^10.5.6",
+    "babel-core": "^6.26.3",
+    "babel-jest": "^23.4.2",
+    "coveralls": "^3.0.1",
+    "jest": "^23.4.2",
+    "prettier": "^1.14.0",
+    "regenerator-runtime": "^0.12.1",
+    "rimraf": "^2.6.2",
+    "ts-jest": "^23.1.2",
+    "tslint": "^5.11.0",
+    "tslint-config-prettier": "^1.14.0",
+    "tslint-config-strict": "^1.12.0",
+    "typescript": "^3.0.1"
+  }
+}

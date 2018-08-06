@@ -1,0 +1,19 @@
+sudo: false
+language: node_js
+node_js:
+  - "10"
+cache:
+  yarn: true
+  directories:
+    - node_modules
+branches:
+  only:
+    - master
+script:
+  - yarn install
+  - yarn build
+  - yarn lint
+  - yarn prettier-check
+  - yarn coverage
+after_success:
+  - yarn coveralls
