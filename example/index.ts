@@ -104,7 +104,7 @@ interface ConfigurationAnswers {
   require(filename);
 
   // quit after a small delay (slackbots does not provide connection closing)
-  setTimeout(() => {
-    process.exit(0);
-  }, 1000);
+  // setTimeout(() => {
+  //   process.exit(0);
+  // }, 1000);
 })().catch(error => console.error(error));

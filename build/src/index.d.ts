@@ -1,5 +1,5 @@
 /// <reference types="node" />
-import { PostMessageParams, SlackBotOptions } from "slackbots";
+import { PostMessageParams, SlackBotMessage, SlackBotNormalMessage, SlackBotOptions } from "slackbots";
 import { Transform } from "stream";
 export { default as Logger } from "./Logger";
 /**
@@ -77,14 +77,23 @@ export interface MessageInfo {
 }
 export declare const levelNameMap: LevelNameMap;
 export declare const levelColorMap: LevelColorMap;
+export interface MessageHandler {
+    getName(): string;
+    getDescription(): string;
+    handleMessage(message: SlackBotNormalMessage, logger: SlackLogger): void;
+}
 export default class SlackLogger extends Transform {
     readonly isEnabled: boolean;
     readonly objectMode: boolean;
     private isOpen;
     private readonly options;
     private readonly bot;
+    private readonly messageHandlers;
     constructor(options: SlackLogOptions);
     readonly isConnected: boolean;
+    addMessageHandler(messageHandler: MessageHandler): void;
+    getMessageHandlerByName(name: string): MessageHandler | undefined;
+    getMessageHandlers(): MessageHandler[];
     sendMessage(userInfo: MessageInfo): void;
     /**
      * This stream method is called by Bunyan.
@@ -93,7 +102,8 @@ export default class SlackLogger extends Transform {
      */
     write(data: {}): boolean;
     end(): boolean;
-    protected post(message: string, options?: PostMessageParams): void;
+    post(message: string, options?: PostMessageParams): void;
+    onMessage(message: SlackBotMessage): void;
     protected formatSource(basePath: string, source: string): string;
     protected getDateTime(): string;
 }

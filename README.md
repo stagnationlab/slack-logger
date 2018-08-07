@@ -23,6 +23,9 @@ npm install slack-logger
 - Logs messages to a Slack channel.
 - Configurable logging level.
 - Pretty prints additional information.
+- Support handling messages from the channel.
+- Has built-in message handler for setting logging level.
+- One can easily add custom message handlers for restarting the server, deploying a new version etc.
 - Can integrate with any logging solution.
 - Works great with [Bunyan](https://github.com/trentm/node-bunyan) but not required.
 - Also plays nicely with [Winston](https://github.com/winstonjs/winston).

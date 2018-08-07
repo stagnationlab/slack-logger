@@ -1,8 +1,9 @@
 import * as yaml from "js-yaml";
 import moment from "moment";
 import * as path from "path";
-import SlackBot, { PostMessageParams, SlackBotOptions } from "slackbots";
+import SlackBot, { PostMessageParams, SlackBotMessage, SlackBotNormalMessage, SlackBotOptions } from "slackbots";
 import { Transform } from "stream";
+import HelpMessageHandler from "./HelpMessageHandler";
 
 export { default as Logger } from "./Logger";
 
@@ -104,6 +105,12 @@ export const levelColorMap: LevelColorMap = {
   [LogLevel.FATAL]: "#DE3B43",
 };
 
+export interface MessageHandler {
+  getName(): string;
+  getDescription(): string;
+  handleMessage(message: SlackBotNormalMessage, logger: SlackLogger): void;
+}
+
 // tslint:disable-next-line:max-classes-per-file
 export default class SlackLogger extends Transform {
   public readonly isEnabled: boolean;
@@ -111,6 +118,7 @@ export default class SlackLogger extends Transform {
   private isOpen = false;
   private readonly options: Required<SlackLogOptions>;
   private readonly bot: SlackBot | undefined;
+  private readonly messageHandlers: MessageHandler[] = [];
 
   public constructor(options: SlackLogOptions) {
     super({
@@ -157,10 +165,28 @@ export default class SlackLogger extends Transform {
     this.bot.on("close", () => {
       this.isOpen = false;
     });
+
+    // register built-in message handlers
+    this.addMessageHandler(new HelpMessageHandler());
+
+    // listen for incoming messages
+    this.bot.on("message", message => this.onMessage(message));
   }
 
   public get isConnected() {
     return this.isOpen;
+  }
+
+  public addMessageHandler(messageHandler: MessageHandler) {
+    this.messageHandlers.push(messageHandler);
+  }
+
+  public getMessageHandlerByName(name: string): MessageHandler | undefined {
+    return this.messageHandlers.find(item => item.getName() === name);
+  }
+
+  public getMessageHandlers(): MessageHandler[] {
+    return this.messageHandlers;
   }
 
   public sendMessage(userInfo: MessageInfo) {
@@ -319,7 +345,7 @@ export default class SlackLogger extends Transform {
     return true;
   }
 
-  protected post(message: string, options: PostMessageParams = {}) {
+  public post(message: string, options: PostMessageParams = {}) {
     // just ignore post requests if no bot was created
     if (!this.bot) {
       return;
@@ -334,6 +360,28 @@ export default class SlackLogger extends Transform {
     } catch (error) {
       console.warn(`posting "${message}" to slack failed (${error.message})`);
     }
+  }
+
+  public onMessage(message: SlackBotMessage) {
+    // only handle normal messages
+    if (message.type !== "message" || typeof message.text !== "string") {
+      return;
+    }
+
+    // split the message into tokens and use the first word as the name of the command
+    const tokens = message.text.split(" ");
+    const name = tokens[0];
+
+    // attempt to find the message handler
+    const messageHandler = this.getMessageHandlerByName(name);
+
+    // ignore unsupported messages
+    if (!messageHandler) {
+      return;
+    }
+
+    // handle supported messages
+    messageHandler.handleMessage(message, this);
   }
 
   protected formatSource(basePath: string, source: string) {

@@ -49,6 +49,7 @@ var moment_1 = __importDefault(require("moment"));
 var path = __importStar(require("path"));
 var slackbots_1 = __importDefault(require("slackbots"));
 var stream_1 = require("stream");
+var HelpMessageHandler_1 = __importDefault(require("./HelpMessageHandler"));
 var Logger_1 = require("./Logger");
 exports.Logger = Logger_1.default;
 // tslint:disable-next-line:no-require-imports no-var-requires
@@ -92,6 +93,7 @@ var SlackLogger = /** @class */ (function (_super) {
         }) || this;
         _this.objectMode = true;
         _this.isOpen = false;
+        _this.messageHandlers = [];
         // build options
         _this.options = __assign({ version: "", token: "", name: "Slack Logger", channel: "general", iconUrl: "https://image.ibb.co/iOSThT/log_local.png", basePath: path.join(__dirname, "..", ".."), levelIconUrlMap: {
                 TRACE: "https://image.ibb.co/bx33bd/log_trace.png",
@@ -117,6 +119,10 @@ var SlackLogger = /** @class */ (function (_super) {
         _this.bot.on("close", function () {
             _this.isOpen = false;
         });
+        // register built-in message handlers
+        _this.addMessageHandler(new HelpMessageHandler_1.default());
+        // listen for incoming messages
+        _this.bot.on("message", function (message) { return _this.onMessage(message); });
         return _this;
     }
     Object.defineProperty(SlackLogger.prototype, "isConnected", {
@@ -126,6 +132,15 @@ var SlackLogger = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    SlackLogger.prototype.addMessageHandler = function (messageHandler) {
+        this.messageHandlers.push(messageHandler);
+    };
+    SlackLogger.prototype.getMessageHandlerByName = function (name) {
+        return this.messageHandlers.find(function (item) { return item.getName() === name; });
+    };
+    SlackLogger.prototype.getMessageHandlers = function () {
+        return this.messageHandlers;
+    };
     SlackLogger.prototype.sendMessage = function (userInfo) {
         // just ignore messages if no bot was created
         if (!this.bot) {
@@ -250,6 +265,23 @@ var SlackLogger = /** @class */ (function (_super) {
         catch (error) {
             console.warn("posting \"" + message + "\" to slack failed (" + error.message + ")");
         }
+    };
+    SlackLogger.prototype.onMessage = function (message) {
+        // only handle normal messages
+        if (message.type !== "message" || typeof message.text !== "string") {
+            return;
+        }
+        // split the message into tokens and use the first word as the name of the command
+        var tokens = message.text.split(" ");
+        var name = tokens[0];
+        // attempt to find the message handler
+        var messageHandler = this.getMessageHandlerByName(name);
+        // ignore unsupported messages
+        if (!messageHandler) {
+            return;
+        }
+        // handle supported messages
+        messageHandler.handleMessage(message, this);
     };
     SlackLogger.prototype.formatSource = function (basePath, source) {
         return path.relative(basePath, source).replace(/\\/g, "/");

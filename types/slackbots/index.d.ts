@@ -5,7 +5,24 @@ declare module "slackbots" {
     as_user?: boolean;
   }
 
-  export interface SlackBotMessage {}
+  export interface SlackBotTypingMessage {
+    type: "user_typing";
+    channel: string;
+    user: string;
+  }
+  export interface SlackBotNormalMessage {
+    type: "message";
+    channel: string;
+    user: string;
+    text: string;
+    team: string;
+    client_message_id: string;
+    event_ts: string;
+    ts: string;
+  }
+
+  // there are actually more types https://api.slack.com/events/message
+  export type SlackBotMessage = SlackBotTypingMessage | SlackBotNormalMessage;
 
   export interface AttachmentInfo {
     text: string;

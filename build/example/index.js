@@ -122,10 +122,6 @@ var path = __importStar(require("path"));
                 filename = path.join(__dirname, exampleName + ".js");
                 console.log("\nRunning " + chalk_1.default.bold(filename) + "\n");
                 require(filename);
-                // quit after a small delay (slackbots does not provide connection closing)
-                setTimeout(function () {
-                    process.exit(0);
-                }, 1000);
                 return [2 /*return*/];
         }
     });
