@@ -56,10 +56,10 @@ export interface SlackLogOptions extends SlackBotOptions {
   levelIconUrlMap?: LevelIconUrlMap;
 }
 
-export interface BunyanLogMessage {
+export interface StreamLogMessage {
   name?: string;
   component?: string;
-  level?: number;
+  level?: number | string;
   msg?: string;
   time?: string;
   hostname?: string;
@@ -104,14 +104,18 @@ export const levelColorMap: LevelColorMap = {
   [LogLevel.FATAL]: "#DE3B43",
 };
 
+// tslint:disable-next-line:max-classes-per-file
 export default class SlackLogger extends Transform {
   public readonly isEnabled: boolean;
+  public readonly objectMode = true;
   private isOpen = false;
   private readonly options: Required<SlackLogOptions>;
   private readonly bot: SlackBot | undefined;
 
   public constructor(options: SlackLogOptions) {
-    super();
+    super({
+      objectMode: true,
+    });
 
     // build options
     this.options = {
@@ -257,6 +261,7 @@ export default class SlackLogger extends Transform {
       component,
       level: lvl,
       msg,
+      message: msg2,
       time,
       hostname,
       pid,
@@ -267,11 +272,12 @@ export default class SlackLogger extends Transform {
       filename,
       src,
       ...userData
-    } = data as BunyanLogMessage;
+    } = data as StreamLogMessage;
 
     // resolve error
     const error = err || err2;
-    const text = stripAnsi(msg || "");
+    const message = msg || msg2;
+    const text = stripAnsi(message || "");
 
     // ignore if the message and error are missing
     if (text.length === 0 && error === undefined) {
@@ -279,10 +285,17 @@ export default class SlackLogger extends Transform {
     }
 
     // resolve error level
-    let level = lvl && levelNameMap[lvl] ? levelNameMap[lvl] : LogLevel.INFO;
+    let level = LogLevel.INFO;
 
-    if (level === undefined) {
-      level = LogLevel.INFO;
+    // winston gives string levels such as info, warn, bunyan gives numbers sucks as 10, 20
+    if (typeof lvl === "string") {
+      if (Object.keys(LogLevel).indexOf(lvl.toUpperCase()) !== -1) {
+        level = lvl.toUpperCase() as LogLevel;
+      }
+    } else if (typeof lvl === "number") {
+      const mappedLevel = levelNameMap[lvl];
+
+      level = mappedLevel ? mappedLevel : LogLevel.INFO;
     }
 
     // send the message

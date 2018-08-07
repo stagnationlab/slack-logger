@@ -47,10 +47,10 @@ export interface SlackLogOptions extends SlackBotOptions {
     basePath?: string;
     levelIconUrlMap?: LevelIconUrlMap;
 }
-export interface BunyanLogMessage {
+export interface StreamLogMessage {
     name?: string;
     component?: string;
-    level?: number;
+    level?: number | string;
     msg?: string;
     time?: string;
     hostname?: string;
@@ -79,6 +79,7 @@ export declare const levelNameMap: LevelNameMap;
 export declare const levelColorMap: LevelColorMap;
 export default class SlackLogger extends Transform {
     readonly isEnabled: boolean;
+    readonly objectMode: boolean;
     private isOpen;
     private readonly options;
     private readonly bot;

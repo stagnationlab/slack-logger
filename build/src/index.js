@@ -83,10 +83,14 @@ exports.levelColorMap = (_a = {},
     _a[LogLevel.ERROR] = "#DE3B43",
     _a[LogLevel.FATAL] = "#DE3B43",
     _a);
+// tslint:disable-next-line:max-classes-per-file
 var SlackLogger = /** @class */ (function (_super) {
     __extends(SlackLogger, _super);
     function SlackLogger(options) {
-        var _this = _super.call(this) || this;
+        var _this = _super.call(this, {
+            objectMode: true,
+        }) || this;
+        _this.objectMode = true;
         _this.isOpen = false;
         // build options
         _this.options = __assign({ version: "", token: "", name: "Slack Logger", channel: "general", iconUrl: "https://image.ibb.co/iOSThT/log_local.png", basePath: path.join(__dirname, "..", ".."), levelIconUrlMap: {
@@ -196,18 +200,26 @@ var SlackLogger = /** @class */ (function (_super) {
             return true;
         }
         // extract known data and the rest as user data
-        var _a = data, name = _a.name, component = _a.component, lvl = _a.level, msg = _a.msg, time = _a.time, hostname = _a.hostname, pid = _a.pid, v = _a.v, version = _a.version, err = _a.err, err2 = _a.error, filename = _a.filename, src = _a.src, userData = __rest(_a, ["name", "component", "level", "msg", "time", "hostname", "pid", "v", "version", "err", "error", "filename", "src"]);
+        var _a = data, name = _a.name, component = _a.component, lvl = _a.level, msg = _a.msg, msg2 = _a.message, time = _a.time, hostname = _a.hostname, pid = _a.pid, v = _a.v, version = _a.version, err = _a.err, err2 = _a.error, filename = _a.filename, src = _a.src, userData = __rest(_a, ["name", "component", "level", "msg", "message", "time", "hostname", "pid", "v", "version", "err", "error", "filename", "src"]);
         // resolve error
         var error = err || err2;
-        var text = stripAnsi(msg || "");
+        var message = msg || msg2;
+        var text = stripAnsi(message || "");
         // ignore if the message and error are missing
         if (text.length === 0 && error === undefined) {
             return false;
         }
         // resolve error level
-        var level = lvl && exports.levelNameMap[lvl] ? exports.levelNameMap[lvl] : LogLevel.INFO;
-        if (level === undefined) {
-            level = LogLevel.INFO;
+        var level = LogLevel.INFO;
+        // winston gives string levels such as info, warn, bunyan gives numbers sucks as 10, 20
+        if (typeof lvl === "string") {
+            if (Object.keys(LogLevel).indexOf(lvl.toUpperCase()) !== -1) {
+                level = lvl.toUpperCase();
+            }
+        }
+        else if (typeof lvl === "number") {
+            var mappedLevel = exports.levelNameMap[lvl];
+            level = mappedLevel ? mappedLevel : LogLevel.INFO;
         }
         // send the message
         this.sendMessage({

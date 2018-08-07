@@ -15,4 +15,4 @@ log.info({
 }, "user was successfully registered");
 // you can still use multiple components in a single file if needed
 logger_1.default.get("email").warn("sending registration email failed");
-//# sourceMappingURL=3-example-logger.js.map
+//# sourceMappingURL=4-example-logger.js.map

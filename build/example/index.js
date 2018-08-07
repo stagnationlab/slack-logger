@@ -107,8 +107,12 @@ var path = __importStar(require("path"));
                                 value: "2-example-bunyan",
                             },
                             {
+                                name: "Winston",
+                                value: "3-example-winston",
+                            },
+                            {
                                 name: "Logger",
-                                value: "3-example-logger",
+                                value: "4-example-logger",
                             },
                         ],
                     },
