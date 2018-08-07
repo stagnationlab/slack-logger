@@ -49,6 +49,8 @@ var moment_1 = __importDefault(require("moment"));
 var path = __importStar(require("path"));
 var slackbots_1 = __importDefault(require("slackbots"));
 var stream_1 = require("stream");
+var Logger_1 = require("./Logger");
+exports.Logger = Logger_1.default;
 // tslint:disable-next-line:no-require-imports no-var-requires
 var stripAnsi = require("strip-ansi");
 /**
@@ -95,22 +97,22 @@ var SlackLogger = /** @class */ (function (_super) {
                 ERROR: "https://image.ibb.co/f06Obd/log_error.png",
                 FATAL: "https://image.ibb.co/hyAibd/log_fatal.png",
             }, as_user: false }, options);
+        // slack logger is enabled if a token was provided
+        _this.isEnabled = typeof _this.options.token === "string" && _this.options.token.length > 0;
         // don't attempt to create the bot if no token is provided
-        if (typeof _this.options.token !== "string" || _this.options.token.length === 0) {
-            _this.isEnabled = false;
+        if (!_this.isEnabled) {
             return _this;
         }
         // create slack-bot
         _this.bot = new slackbots_1.default(_this.options);
+        // listen for open event
         _this.bot.on("open", function () {
             _this.isOpen = true;
         });
+        // listen for close event
         _this.bot.on("close", function () {
             _this.isOpen = false;
         });
-        _this.isEnabled = true;
-        // post startup message
-        _this.post("--- Server v" + _this.options.version + " started " + _this.getDateTime() + " ---");
         return _this;
     }
     Object.defineProperty(SlackLogger.prototype, "isConnected", {
@@ -158,7 +160,7 @@ var SlackLogger = /** @class */ (function (_super) {
             })
             : "";
         // set text to formatted yaml
-        var text = "```" + userDataYaml + "```";
+        var text = userDataYaml.length > 0 ? "```" + userDataYaml + "```" : "";
         // add stack trace if available
         if (info.error && info.error.stack) {
             text += "\n" + info.error.stack
@@ -209,7 +211,7 @@ var SlackLogger = /** @class */ (function (_super) {
         }
         // send the message
         this.sendMessage({
-            component: component,
+            component: component || name,
             hostname: hostname,
             src: src !== undefined ? src : filename !== undefined ? { file: filename, line: undefined } : undefined,
             version: this.options.version,

@@ -13,7 +13,7 @@ const config: SlackLogOptions = {
 
 // create the logger instance
 const slackLog = new SlackLogger({
-  version: "1.0.0", // extract from package.json etc
+  version: "1.4.2", // extract from package.json etc
   channel: config.channel,
   iconUrl: config.iconUrl,
   token: config.token,

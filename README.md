@@ -8,7 +8,7 @@
 
 **Bunyan-compatible logger that send pretty formatted messages to a Slack channel.**
 
-![Example](https://raw.githubusercontent.com/stagnationlab/slack-logger/master/example/example.gif)
+![Example](https://raw.githubusercontent.com/stagnationlab/slack-logger/master/example/example.jpg)
 
 - Logs log messages to a Slack channel.
 - Configurable logging level.

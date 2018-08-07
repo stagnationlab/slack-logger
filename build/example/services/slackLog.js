@@ -22,7 +22,7 @@ var config = {
 };
 // create the logger instance
 var slackLog = new src_1.default({
-    version: "1.0.0",
+    version: "1.4.2",
     channel: config.channel,
     iconUrl: config.iconUrl,
     token: config.token,

@@ -26,8 +26,6 @@ declare module "slackbots" {
   export type SlackBotMessageEvent = (message: SlackBotMessage) => any;
 
   class SlackBot {
-    public ws: WebSocket;
-
     public constructor(options: SlackBotOptions);
 
     public on(event: "start", callback: SlackBotStartEvent): void;

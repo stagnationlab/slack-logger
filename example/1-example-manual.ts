@@ -1,6 +1,7 @@
 import { LogLevel } from "../src";
 import slackLog from "./services/slackLog";
 
+// notify of missing configuration
 if (!slackLog.isEnabled) {
   console.log(
     "no valid configuration exists, please copy .env-example file to .env and modify it's contents to match your Slack integration options",
@@ -11,7 +12,7 @@ if (!slackLog.isEnabled) {
 
 // manually send a log message
 slackLog.sendMessage({
-  text: "Registering user failed",
+  text: "registering user failed",
   component: "example",
   level: LogLevel.ERROR,
   userData: {

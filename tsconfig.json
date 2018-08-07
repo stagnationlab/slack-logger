@@ -4,6 +4,7 @@
     "outDir": "build",
     "moduleResolution": "node",
     "typeRoots": ["./types", "./node_modules/@types"],
+    "lib": ["es2015"],
 
     "declaration": true,
     "strict": true,

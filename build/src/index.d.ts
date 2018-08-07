@@ -1,6 +1,7 @@
 /// <reference types="node" />
 import { PostMessageParams, SlackBotOptions } from "slackbots";
 import { Transform } from "stream";
+export { default as Logger } from "./Logger";
 /**
  * Supported log levels.
  *

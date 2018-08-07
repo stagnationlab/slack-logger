@@ -4,6 +4,8 @@ import * as path from "path";
 import SlackBot, { PostMessageParams, SlackBotOptions } from "slackbots";
 import { Transform } from "stream";
 
+export { default as Logger } from "./Logger";
+
 // tslint:disable-next-line:no-require-imports no-var-requires
 const stripAnsi = require("strip-ansi");
 
@@ -131,28 +133,26 @@ export default class SlackLogger extends Transform {
       ...options,
     };
 
-    // don't attempt to create the bot if no token is provided
-    if (typeof this.options.token !== "string" || this.options.token.length === 0) {
-      this.isEnabled = false;
+    // slack logger is enabled if a token was provided
+    this.isEnabled = typeof this.options.token === "string" && this.options.token.length > 0;
 
+    // don't attempt to create the bot if no token is provided
+    if (!this.isEnabled) {
       return;
     }
 
     // create slack-bot
     this.bot = new SlackBot(this.options);
 
+    // listen for open event
     this.bot.on("open", () => {
       this.isOpen = true;
     });
 
+    // listen for close event
     this.bot.on("close", () => {
       this.isOpen = false;
     });
-
-    this.isEnabled = true;
-
-    // post startup message
-    this.post(`--- Server v${this.options.version} started ${this.getDateTime()} ---`);
   }
 
   public get isConnected() {
@@ -212,7 +212,7 @@ export default class SlackLogger extends Transform {
         : "";
 
     // set text to formatted yaml
-    let text = `\`\`\`${userDataYaml}\`\`\``;
+    let text = userDataYaml.length > 0 ? `\`\`\`${userDataYaml}\`\`\`` : "";
 
     // add stack trace if available
     if (info.error && info.error.stack) {
@@ -287,7 +287,7 @@ export default class SlackLogger extends Transform {
 
     // send the message
     this.sendMessage({
-      component,
+      component: component || name,
       hostname,
       src: src !== undefined ? src : filename !== undefined ? { file: filename, line: undefined } : undefined,
       version: this.options.version,
