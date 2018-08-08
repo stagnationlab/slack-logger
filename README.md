@@ -34,7 +34,7 @@ npm install slack-logger
 
 ## Using in your application
 
-Recommended way of using logging and the slack logger in your application is by using the provided Logger class that's a simple abstraction on top of Bunyan for getting component-specific loggers. See the [4-example-logger.ts](https://github.com/stagnationlab/slack-logger/blob/master/examples/4-example-logger.ts) for details.
+Recommended way of using logging and the slack logger in your application is by using the provided Logger class that's a simple abstraction on top of Bunyan for getting component-specific loggers. See the [examples/4-example-logger.ts](https://github.com/stagnationlab/slack-logger/blob/master/examples/4-example-logger.ts) for details.
 
 ```typescript
 import logger from "./services/logger";
