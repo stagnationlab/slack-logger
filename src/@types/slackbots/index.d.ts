@@ -42,7 +42,7 @@ declare module "slackbots" {
   export type SlackBotCloseEvent = () => any;
   export type SlackBotMessageEvent = (message: SlackBotMessage) => any;
 
-  class SlackBot {
+  export default class SlackBot {
     public constructor(options: SlackBotOptions);
 
     public on(event: "start", callback: SlackBotStartEvent): void;
@@ -55,5 +55,5 @@ declare module "slackbots" {
     public postTo(channel: string, message: string, params?: PostMessageParams): void;
   }
 
-  export default SlackBot;
+  // export default SlackBot;
 }
