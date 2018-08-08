@@ -1,6 +1,6 @@
 /// <reference path="../../src/@types/slackbots/index.d.ts" />
 /// <reference types="node" />
-import { PostMessageParams, SlackBotMessage, SlackBotNormalMessage, SlackBotOptions } from "slackbots";
+import { PostMessageParams, SlackBotChannel, SlackBotMessage, SlackBotNormalMessage, SlackBotOptions } from "slackbots";
 import { Transform } from "stream";
 export { default as Logger } from "./Logger";
 export { default as HelpMessageHandler } from "./handlers/HelpMessageHandler";
@@ -93,11 +93,14 @@ export default class SlackLogger extends Transform {
     private readonly options;
     private readonly bot;
     private readonly messageHandlers;
+    private channels;
     constructor(options: SlackLogOptions);
     readonly isConnected: boolean;
     addMessageHandler(messageHandler: MessageHandler): void;
     getMessageHandlerByName(name: string): MessageHandler | undefined;
     getMessageHandlers(): MessageHandler[];
+    getChannelById(id: string): SlackBotChannel | undefined;
+    getChannelByName(name: string): SlackBotChannel | undefined;
     sendMessage(userInfo: MessageInfo): void;
     /**
      * This stream method is called by Bunyan.

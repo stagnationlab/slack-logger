@@ -10,6 +10,7 @@ declare module "slackbots" {
     channel: string;
     user: string;
   }
+
   export interface SlackBotNormalMessage {
     type: "message";
     channel: string;
@@ -37,6 +38,19 @@ declare module "slackbots" {
     // TODO: add all from https://api.slack.com/methods/chat.postMessage
   }
 
+  export interface SlackBotChannelsResponse {
+    channels: SlackBotChannel[];
+  }
+
+  export interface SlackBotGroupsResponse {
+    groups: SlackBotChannel[];
+  }
+
+  export interface SlackBotChannel {
+    id: string;
+    name: string;
+  }
+
   export type SlackBotStartEvent = () => any;
   export type SlackBotOpenEvent = () => any;
   export type SlackBotCloseEvent = () => any;
@@ -53,6 +67,10 @@ declare module "slackbots" {
     public postMessageToChannel(channel: string, message: string, params?: PostMessageParams): void;
     public postMessageToGroup(channel: string, message: string, params?: PostMessageParams): void;
     public postTo(channel: string, message: string, params?: PostMessageParams): void;
+    public postMessage(id: string, message: string, params?: PostMessageParams): void;
+
+    public getChannels(): Promise<SlackBotChannelsResponse>;
+    public getGroups(): Promise<SlackBotGroupsResponse>;
   }
 
   // export default SlackBot;

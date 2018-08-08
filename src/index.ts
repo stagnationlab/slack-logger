@@ -4,7 +4,13 @@
 import * as yaml from "js-yaml";
 import moment from "moment";
 import * as path from "path";
-import SlackBot, { PostMessageParams, SlackBotMessage, SlackBotNormalMessage, SlackBotOptions } from "slackbots";
+import SlackBot, {
+  PostMessageParams,
+  SlackBotChannel,
+  SlackBotMessage,
+  SlackBotNormalMessage,
+  SlackBotOptions,
+} from "slackbots";
 import { Transform } from "stream";
 import HelpMessageHandler from "./handlers/HelpMessageHandler";
 
@@ -126,6 +132,7 @@ export default class SlackLogger extends Transform {
   private readonly options: Required<SlackLogOptions>;
   private readonly bot: SlackBot | undefined;
   private readonly messageHandlers: MessageHandler[] = [];
+  private channels: SlackBotChannel[] | undefined;
 
   public constructor(options: SlackLogOptions) {
     super({
@@ -164,8 +171,20 @@ export default class SlackLogger extends Transform {
     this.bot = new SlackBot(this.options);
 
     // listen for open event
-    this.bot.on("open", () => {
+    this.bot.on("open", async () => {
       this.isOpen = true;
+
+      // give up if bot is not available
+      if (!this.bot) {
+        return;
+      }
+
+      // fetch list of channels and groups
+      const { channels } = await this.bot.getChannels();
+      const { groups } = await this.bot.getGroups();
+
+      // save list of channels including groups
+      this.channels = [...channels, ...groups];
     });
 
     // listen for close event
@@ -194,6 +213,22 @@ export default class SlackLogger extends Transform {
 
   public getMessageHandlers(): MessageHandler[] {
     return this.messageHandlers;
+  }
+
+  public getChannelById(id: string): SlackBotChannel | undefined {
+    if (!this.channels) {
+      return undefined;
+    }
+
+    return this.channels.find(channel => channel.id === id);
+  }
+
+  public getChannelByName(name: string): SlackBotChannel | undefined {
+    if (!this.channels) {
+      return undefined;
+    }
+
+    return this.channels.find(channel => channel.name === name);
   }
 
   public sendMessage(userInfo: MessageInfo) {
@@ -358,8 +393,18 @@ export default class SlackLogger extends Transform {
       return;
     }
 
+    // get channel info
+    const channel = this.getChannelByName(this.options.channel);
+
+    // ignore if channel with configured name could not be found
+    if (!channel) {
+      console.warn(`[SlackLogger] Posting to #${this.options.channel} requested but no such channel was found`);
+
+      return;
+    }
+
     try {
-      this.bot.postTo(this.options.channel, message, {
+      this.bot.postMessage(channel.id, message, {
         username: this.options.name,
         icon_url: this.options.iconUrl,
         ...options,
@@ -372,6 +417,19 @@ export default class SlackLogger extends Transform {
   public onMessage(message: SlackBotMessage) {
     // only handle normal messages
     if (message.type !== "message" || typeof message.text !== "string") {
+      return;
+    }
+
+    // attempt to get channel info by name
+    const channel = this.getChannelById(message.channel);
+
+    // ignore message if no such channel was found
+    if (!channel) {
+      return;
+    }
+
+    // ignore messages from wrong channels
+    if (channel.name !== this.options.channel) {
       return;
     }
 
