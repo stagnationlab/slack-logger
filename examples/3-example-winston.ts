@@ -1,8 +1,8 @@
 import * as winston from "winston";
-import slackLog from "./services/slackLog";
+import slackLogger from "./services/slackLogger";
 
 // notify of missing configuration
-if (!slackLog.isEnabled) {
+if (!slackLogger.isEnabled) {
   console.log(
     "no valid configuration exists, please copy .env-example file to .env and modify it's contents to match your Slack integration options",
   );
@@ -14,7 +14,7 @@ if (!slackLog.isEnabled) {
 const logger = winston.createLogger();
 
 // add the slack log as raw stream
-logger.add(new winston.transports.Stream({ stream: slackLog }));
+logger.add(new winston.transports.Stream({ stream: slackLogger }));
 
 // log simple info message
 logger.info("registering new user");

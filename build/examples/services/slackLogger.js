@@ -29,4 +29,4 @@ var slackLog = new src_1.default({
     name: config.name,
 });
 exports.default = slackLog;
-//# sourceMappingURL=slackLog.js.map
+//# sourceMappingURL=slackLogger.js.map

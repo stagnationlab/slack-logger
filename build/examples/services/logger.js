@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var path = __importStar(require("path"));
 var src_1 = require("../../src");
-var slackLog_1 = __importDefault(require("./slackLog"));
+var slackLogger_1 = __importDefault(require("./slackLogger"));
 // the provided logger class is a small abstraction on top of Bunyan that provides a get() method that sets the
 // component name
 var logger = new src_1.Logger({
@@ -24,7 +24,7 @@ logger.addStream({
     name: "slack",
     level: "info",
     type: "raw",
-    stream: slackLog_1.default,
+    stream: slackLogger_1.default,
 });
 // also register the provided console logger
 logger.addStream({
@@ -36,13 +36,13 @@ logger.addStream({
     }),
 });
 // register level change handler (say "level warn" to change the logging level to warn etc)
-slackLog_1.default.addMessageHandler(new src_1.LevelMessageHandler({
+slackLogger_1.default.addMessageHandler(new src_1.LevelMessageHandler({
     onLevelChange: function (newLevel) {
         logger.setLevel(newLevel);
     },
 }));
 // example of adding a custom message handler
-slackLog_1.default.addMessageHandler({
+slackLogger_1.default.addMessageHandler({
     getName: function () { return "test"; },
     getDescription: function () { return "triggers some log messages for testing changing log level"; },
     handleMessage: function (_message, _logger) {
@@ -53,7 +53,7 @@ slackLog_1.default.addMessageHandler({
     },
 });
 // example of adding a custom message handler
-slackLog_1.default.addMessageHandler({
+slackLogger_1.default.addMessageHandler({
     getName: function () { return "restart"; },
     getDescription: function () { return "restarts the application"; },
     handleMessage: function (_message, log) {

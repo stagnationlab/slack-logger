@@ -1,6 +1,6 @@
 import * as path from "path";
 import { ConsoleLog, LevelMessageHandler, Logger, LogLevel } from "../../src";
-import slackLog from "./slackLog";
+import slackLogger from "./slackLogger";
 
 // the provided logger class is a small abstraction on top of Bunyan that provides a get() method that sets the
 // component name
@@ -14,7 +14,7 @@ logger.addStream({
   name: "slack",
   level: "info",
   type: "raw",
-  stream: slackLog,
+  stream: slackLogger,
 });
 
 // also register the provided console logger
@@ -28,7 +28,7 @@ logger.addStream({
 });
 
 // register level change handler (say "level warn" to change the logging level to warn etc)
-slackLog.addMessageHandler(
+slackLogger.addMessageHandler(
   new LevelMessageHandler({
     onLevelChange: (newLevel: LogLevel) => {
       logger.setLevel(newLevel);
@@ -37,7 +37,7 @@ slackLog.addMessageHandler(
 );
 
 // example of adding a custom message handler
-slackLog.addMessageHandler({
+slackLogger.addMessageHandler({
   getName: () => "test",
   getDescription: () => "triggers some log messages for testing changing log level",
   handleMessage: (_message, _logger) => {
@@ -50,7 +50,7 @@ slackLog.addMessageHandler({
 });
 
 // example of adding a custom message handler
-slackLog.addMessageHandler({
+slackLogger.addMessageHandler({
   getName: () => "restart",
   getDescription: () => "restarts the application",
   handleMessage: (_message, log) => {

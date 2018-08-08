@@ -1,9 +1,9 @@
 import * as Bunyan from "bunyan";
 import { LevelMessageHandler, LogLevel } from "../src";
-import slackLog from "./services/slackLog";
+import slackLogger from "./services/slackLogger";
 
 // notify of missing configuration
-if (!slackLog.isEnabled) {
+if (!slackLogger.isEnabled) {
   console.log(
     "no valid configuration exists, please copy .env-example file to .env and modify it's contents to match your Slack integration options",
   );
@@ -18,7 +18,7 @@ const logger = Bunyan.createLogger({
 });
 
 // example of using the built-in level message handler to change the logging level at runtime (say "level warn" etc)
-slackLog.addMessageHandler(
+slackLogger.addMessageHandler(
   new LevelMessageHandler({
     onLevelChange: (newLevel: LogLevel) => {
       logger.level(newLevel.toLowerCase() as Bunyan.LogLevel);
@@ -31,7 +31,7 @@ logger.addStream({
   name: "slack",
   level: "info",
   type: "raw",
-  stream: slackLog,
+  stream: slackLogger,
 });
 
 // log an error

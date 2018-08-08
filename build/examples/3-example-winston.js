@@ -11,16 +11,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var winston = __importStar(require("winston"));
-var slackLog_1 = __importDefault(require("./services/slackLog"));
+var slackLogger_1 = __importDefault(require("./services/slackLogger"));
 // notify of missing configuration
-if (!slackLog_1.default.isEnabled) {
+if (!slackLogger_1.default.isEnabled) {
     console.log("no valid configuration exists, please copy .env-example file to .env and modify it's contents to match your Slack integration options");
     process.exit(1);
 }
 // create bunyan logger
 var logger = winston.createLogger();
 // add the slack log as raw stream
-logger.add(new winston.transports.Stream({ stream: slackLog_1.default }));
+logger.add(new winston.transports.Stream({ stream: slackLogger_1.default }));
 // log simple info message
 logger.info("registering new user");
 // log detailed error

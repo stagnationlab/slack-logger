@@ -12,9 +12,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var Bunyan = __importStar(require("bunyan"));
 var src_1 = require("../src");
-var slackLog_1 = __importDefault(require("./services/slackLog"));
+var slackLogger_1 = __importDefault(require("./services/slackLogger"));
 // notify of missing configuration
-if (!slackLog_1.default.isEnabled) {
+if (!slackLogger_1.default.isEnabled) {
     console.log("no valid configuration exists, please copy .env-example file to .env and modify it's contents to match your Slack integration options");
     process.exit(1);
 }
@@ -24,7 +24,7 @@ var logger = Bunyan.createLogger({
     streams: [],
 });
 // example of using the built-in level message handler to change the logging level at runtime (say "level warn" etc)
-slackLog_1.default.addMessageHandler(new src_1.LevelMessageHandler({
+slackLogger_1.default.addMessageHandler(new src_1.LevelMessageHandler({
     onLevelChange: function (newLevel) {
         logger.level(newLevel.toLowerCase());
     },
@@ -34,7 +34,7 @@ logger.addStream({
     name: "slack",
     level: "info",
     type: "raw",
-    stream: slackLog_1.default,
+    stream: slackLogger_1.default,
 });
 // log an error
 logger.error({
