@@ -38,13 +38,11 @@ logger.addStream({
 });
 // log an error
 logger.error({
-    userData: {
-        success: false,
-        info: {
-            firstName: "Jack",
-            lastName: "Daniels",
-            email: "jack@daniels.com",
-        },
+    success: false,
+    info: {
+        firstName: "Jack",
+        lastName: "Daniels",
+        email: "jack@daniels.com",
     },
     error: new Error("Duplicate email: jack@daniels.com"),
 }, "registering user failed");

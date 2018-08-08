@@ -5,9 +5,11 @@ import SlackBot, { PostMessageParams, SlackBotMessage, SlackBotNormalMessage, Sl
 import { Transform } from "stream";
 import HelpMessageHandler from "./handlers/HelpMessageHandler";
 
+// export public resources
 export { default as Logger } from "./Logger";
 export { default as HelpMessageHandler } from "./handlers/HelpMessageHandler";
 export { default as LevelMessageHandler } from "./handlers/LevelMessageHandler";
+export { default as ConsoleLog } from "./ConsoleLog";
 
 // tslint:disable-next-line:no-require-imports no-var-requires
 const stripAnsi = require("strip-ansi");

@@ -4,15 +4,15 @@ import logger from "./services/logger";
 const log = logger.get("register", __filename);
 
 // logging message and info separately is recommended as the info gets nicely formatted and message becomes searchable
-log.info(
+log.error(
   {
-    user: {
-      name: "Jack Daniels",
+    success: false,
+    info: {
+      firstName: "Jack",
+      lastName: "Daniels",
       email: "jack@daniels.com",
     },
+    error: new Error("Duplicate email: jack@daniels.com"),
   },
-  "user was successfully registered",
+  "registering user failed",
 );
-
-// you can still use multiple components in a single file if needed
-logger.get("email").warn("sending registration email failed");

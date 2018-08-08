@@ -4,6 +4,7 @@ import { Transform } from "stream";
 export { default as Logger } from "./Logger";
 export { default as HelpMessageHandler } from "./handlers/HelpMessageHandler";
 export { default as LevelMessageHandler } from "./handlers/LevelMessageHandler";
+export { default as ConsoleLog } from "./ConsoleLog";
 /**
  * Supported log levels.
  *

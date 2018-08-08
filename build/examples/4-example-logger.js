@@ -7,12 +7,13 @@ var logger_1 = __importDefault(require("./services/logger"));
 // use the logger.get(componentName, filename) in each file to log for a specific component
 var log = logger_1.default.get("register", __filename);
 // logging message and info separately is recommended as the info gets nicely formatted and message becomes searchable
-log.info({
-    user: {
-        name: "Jack Daniels",
+log.error({
+    success: false,
+    info: {
+        firstName: "Jack",
+        lastName: "Daniels",
         email: "jack@daniels.com",
     },
-}, "user was successfully registered");
-// you can still use multiple components in a single file if needed
-logger_1.default.get("email").warn("sending registration email failed");
+    error: new Error("Duplicate email: jack@daniels.com"),
+}, "registering user failed");
 //# sourceMappingURL=4-example-logger.js.map
