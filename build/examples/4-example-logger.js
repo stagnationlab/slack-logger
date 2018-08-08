@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var logger_1 = __importDefault(require("./services/logger"));
 // use the logger.get(componentName, filename) in each file to log for a specific component
 var log = logger_1.default.get("register", __filename);
-// logging message and info seperately is recommended as the info is nicely formatted and message becomes searchable
+// logging message and info separately is recommended as the info gets nicely formatted and message becomes searchable
 log.info({
     user: {
         name: "Jack Daniels",

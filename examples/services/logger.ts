@@ -35,5 +35,16 @@ slackLog.addMessageHandler({
   },
 });
 
+// example of adding a custom message handler
+slackLog.addMessageHandler({
+  getName: () => "restart",
+  getDescription: () => "restarts the application",
+  handleMessage: (_message, log) => {
+    log.post("restarting the application..");
+
+    // restart();
+  },
+});
+
 // export the logger instance
 export default logger;

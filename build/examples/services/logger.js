@@ -32,6 +32,15 @@ slackLog_1.default.addMessageHandler({
         log.error("error message");
     },
 });
+// example of adding a custom message handler
+slackLog_1.default.addMessageHandler({
+    getName: function () { return "restart"; },
+    getDescription: function () { return "restarts the application"; },
+    handleMessage: function (_message, log) {
+        log.post("restarting the application..");
+        // restart();
+    },
+});
 // export the logger instance
 exports.default = logger;
 //# sourceMappingURL=logger.js.map

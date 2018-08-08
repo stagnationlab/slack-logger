@@ -5,11 +5,11 @@
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
   "scripts": {
-    "start": "yarn build && node build/example",
+    "start": "yarn build && node build/examples",
     "build": "yarn tidy:build && tsc",
     "lint": "tslint --project tsconfig.json --format codeFrame",
     "lint-fix": "yarn lint --fix",
-    "prettier": "prettier --write src/**/*.ts example/**/*.ts",
+    "prettier": "prettier --write src/**/*.ts examples/**/*.ts",
     "prettier-check": "prettier --list-different src/**/*.ts",
     "tidy": "yarn tidy:build && yarn tidy:coverage",
     "tidy:build": "rimraf build",
