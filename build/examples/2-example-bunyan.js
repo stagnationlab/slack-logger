@@ -48,11 +48,4 @@ logger.error({
     },
     error: new Error("Duplicate email: jack@daniels.com"),
 }, "registering user failed");
-// create some messages at interval to test changing logging levels
-setInterval(function () {
-    logger.info("info message");
-    logger.warn("warn message");
-    logger.error("error message");
-    // tslint:disable-next-line:no-magic-numbers
-}, 10000);
 //# sourceMappingURL=2-example-bunyan.js.map

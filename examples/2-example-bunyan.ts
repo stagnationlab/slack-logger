@@ -49,11 +49,3 @@ logger.error(
   },
   "registering user failed",
 );
-
-// create some messages at interval to test changing logging levels
-setInterval(() => {
-  logger.info("info message");
-  logger.warn("warn message");
-  logger.error("error message");
-  // tslint:disable-next-line:no-magic-numbers
-}, 10000);
