@@ -1,4 +1,5 @@
 import * as Bunyan from "bunyan";
+import { LogLevel } from ".";
 
 export default class Logger {
   private readonly logger: Bunyan;
@@ -24,5 +25,9 @@ export default class Logger {
 
   public addSerializers(serializers: Bunyan.Serializers) {
     this.logger.addSerializers(serializers);
+  }
+
+  public setLevel(level: LogLevel) {
+    this.logger.level(level.toLowerCase() as Bunyan.LogLevel);
   }
 }

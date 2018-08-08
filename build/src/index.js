@@ -49,9 +49,13 @@ var moment_1 = __importDefault(require("moment"));
 var path = __importStar(require("path"));
 var slackbots_1 = __importDefault(require("slackbots"));
 var stream_1 = require("stream");
-var HelpMessageHandler_1 = __importDefault(require("./HelpMessageHandler"));
+var HelpMessageHandler_1 = __importDefault(require("./handlers/HelpMessageHandler"));
 var Logger_1 = require("./Logger");
 exports.Logger = Logger_1.default;
+var HelpMessageHandler_2 = require("./handlers/HelpMessageHandler");
+exports.HelpMessageHandler = HelpMessageHandler_2.default;
+var LevelMessageHandler_1 = require("./handlers/LevelMessageHandler");
+exports.LevelMessageHandler = LevelMessageHandler_1.default;
 // tslint:disable-next-line:no-require-imports no-var-requires
 var stripAnsi = require("strip-ansi");
 /**

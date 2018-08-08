@@ -1,5 +1,5 @@
 import { SlackBotNormalMessage } from "slackbots";
-import SlackLogger, { MessageHandler } from ".";
+import SlackLogger, { MessageHandler } from "..";
 export default class HelpMessageHandler implements MessageHandler {
     getName(): string;
     getDescription(): string;

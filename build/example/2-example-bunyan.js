@@ -11,6 +11,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Bunyan = __importStar(require("bunyan"));
+var src_1 = require("../src");
 var slackLog_1 = __importDefault(require("./services/slackLog"));
 // notify of missing configuration
 if (!slackLog_1.default.isEnabled) {
@@ -22,6 +23,12 @@ var logger = Bunyan.createLogger({
     name: "server",
     streams: [],
 });
+// example of using the built-in level message handler to change the logging level at runtime (say "level warn" etc)
+slackLog_1.default.addMessageHandler(new src_1.LevelMessageHandler({
+    onLevelChange: function (newLevel) {
+        logger.level(newLevel.toLowerCase());
+    },
+}));
 // add the slack log as raw stream
 logger.addStream({
     name: "slack",
@@ -41,4 +48,11 @@ logger.error({
     },
     error: new Error("Duplicate email: jack@daniels.com"),
 }, "registering user failed");
+// create some messages at interval to test changing logging levels
+setInterval(function () {
+    logger.info("info message");
+    logger.warn("warn message");
+    logger.error("error message");
+    // tslint:disable-next-line:no-magic-numbers
+}, 10000);
 //# sourceMappingURL=2-example-bunyan.js.map

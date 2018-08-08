@@ -1,4 +1,5 @@
 import * as Bunyan from "bunyan";
+import { LevelMessageHandler, LogLevel } from "../src";
 import slackLog from "./services/slackLog";
 
 // notify of missing configuration
@@ -15,6 +16,15 @@ const logger = Bunyan.createLogger({
   name: "server",
   streams: [],
 });
+
+// example of using the built-in level message handler to change the logging level at runtime (say "level warn" etc)
+slackLog.addMessageHandler(
+  new LevelMessageHandler({
+    onLevelChange: (newLevel: LogLevel) => {
+      logger.level(newLevel.toLowerCase() as Bunyan.LogLevel);
+    },
+  }),
+);
 
 // add the slack log as raw stream
 logger.addStream({
@@ -39,3 +49,11 @@ logger.error(
   },
   "registering user failed",
 );
+
+// create some messages at interval to test changing logging levels
+setInterval(() => {
+  logger.info("info message");
+  logger.warn("warn message");
+  logger.error("error message");
+  // tslint:disable-next-line:no-magic-numbers
+}, 10000);

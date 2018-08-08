@@ -3,9 +3,11 @@ import moment from "moment";
 import * as path from "path";
 import SlackBot, { PostMessageParams, SlackBotMessage, SlackBotNormalMessage, SlackBotOptions } from "slackbots";
 import { Transform } from "stream";
-import HelpMessageHandler from "./HelpMessageHandler";
+import HelpMessageHandler from "./handlers/HelpMessageHandler";
 
 export { default as Logger } from "./Logger";
+export { default as HelpMessageHandler } from "./handlers/HelpMessageHandler";
+export { default as LevelMessageHandler } from "./handlers/LevelMessageHandler";
 
 // tslint:disable-next-line:no-require-imports no-var-requires
 const stripAnsi = require("strip-ansi");

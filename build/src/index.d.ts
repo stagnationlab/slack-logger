@@ -2,6 +2,8 @@
 import { PostMessageParams, SlackBotMessage, SlackBotNormalMessage, SlackBotOptions } from "slackbots";
 import { Transform } from "stream";
 export { default as Logger } from "./Logger";
+export { default as HelpMessageHandler } from "./handlers/HelpMessageHandler";
+export { default as LevelMessageHandler } from "./handlers/LevelMessageHandler";
 /**
  * Supported log levels.
  *

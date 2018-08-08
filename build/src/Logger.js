@@ -37,6 +37,9 @@ var Logger = /** @class */ (function () {
     Logger.prototype.addSerializers = function (serializers) {
         this.logger.addSerializers(serializers);
     };
+    Logger.prototype.setLevel = function (level) {
+        this.logger.level(level.toLowerCase());
+    };
     return Logger;
 }());
 exports.default = Logger;
