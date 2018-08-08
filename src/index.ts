@@ -1,3 +1,6 @@
+// tslint:disable-next-line:no-reference
+/// <reference path="./@types/slackbots/index.d.ts" />
+
 import * as yaml from "js-yaml";
 import moment from "moment";
 import * as path from "path";

@@ -1,3 +1,4 @@
+/// <reference path="../../src/@types/slackbots/index.d.ts" />
 /// <reference types="node" />
 import { PostMessageParams, SlackBotMessage, SlackBotNormalMessage, SlackBotOptions } from "slackbots";
 import { Transform } from "stream";

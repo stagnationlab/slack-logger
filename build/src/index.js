@@ -1,4 +1,6 @@
 "use strict";
+// tslint:disable-next-line:no-reference
+/// <reference path="./@types/slackbots/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
