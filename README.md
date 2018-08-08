@@ -26,6 +26,7 @@ npm install slack-logger
 - Support handling messages from the channel.
 - Has built-in message handler for setting logging level.
 - One can easily add custom message handlers for restarting the server, deploying a new version etc.
+- Provides optional console logger that outputs nicely formatted color-coded log info to console.
 - Can integrate with any logging solution.
 - Works great with [Bunyan](https://github.com/trentm/node-bunyan) but not required.
 - Also plays nicely with [Winston](https://github.com/winstonjs/winston).
@@ -74,6 +75,28 @@ slackLog.addMessageHandler({
 
     restart(); // implement this in some way
   },
+});
+```
+
+## Using the console logger
+
+An optional console logger for Bunyan is provided that outputs the same information formatted nicely for the console.
+
+![Console log](https://raw.githubusercontent.com/stagnationlab/slack-logger/master/examples/console.jpg)
+
+To use this, simply register instance of `ConsoleLog` as a Bunyan stream.
+
+```typescript
+import { ConsoleLog } from "slack-logger";
+
+// register the console logger
+logger.addStream({
+  name: "console",
+  level: "info",
+  type: "raw",
+  stream: new ConsoleLog({
+    basePath: path.join(__dirname, "..", ".."), // configure to point to the root of the project
+  }),
 });
 ```
 
