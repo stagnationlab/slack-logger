@@ -393,18 +393,9 @@ export default class SlackLogger extends Transform {
       return;
     }
 
-    // get channel info
-    const channel = this.getChannelByName(this.options.channel);
-
-    // ignore if channel with configured name could not be found
-    if (!channel) {
-      console.warn(`[SlackLogger] Posting to #${this.options.channel} requested but no such channel was found`);
-
-      return;
-    }
-
+    // attempt to post the message
     try {
-      this.bot.postMessage(channel.id, message, {
+      this.bot.postTo(this.options.channel, message, {
         username: this.options.name,
         icon_url: this.options.iconUrl,
         ...options,

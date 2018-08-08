@@ -334,15 +334,9 @@ var SlackLogger = /** @class */ (function (_super) {
         if (!this.bot) {
             return;
         }
-        console.log("posting to " + this.options.channel);
-        var channel = this.getChannelByName(this.options.channel);
-        // ignore if channel with configured name could not be found
-        if (!channel) {
-            console.warn("[SlackLogger] Posting to #" + this.options.channel + " requested but no such channel was found");
-            return;
-        }
+        // attempt to post the message
         try {
-            this.bot.postMessage(channel.id, message, __assign({ username: this.options.name, icon_url: this.options.iconUrl }, options));
+            this.bot.postTo(this.options.channel, message, __assign({ username: this.options.name, icon_url: this.options.iconUrl }, options));
         }
         catch (error) {
             console.warn("posting \"" + message + "\" to slack failed (" + error.message + ")");
