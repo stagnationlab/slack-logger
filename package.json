@@ -1,6 +1,6 @@
 {
   "name": "slack-logger",
-  "version": "1.7.1",
+  "version": "1.7.2",
   "description": "Bunyan-compatible logger that send pretty formatted messages to a Slack channel.",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
