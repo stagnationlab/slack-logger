@@ -22,14 +22,23 @@ var Bunyan = __importStar(require("bunyan"));
 var Logger = /** @class */ (function () {
     function Logger(options) {
         if (options === void 0) { options = { name: "app" }; }
+        this.componentLoggers = {};
         this.logger = Bunyan.createLogger(__assign({ streams: [], serializers: Bunyan.stdSerializers }, options));
     }
     Logger.prototype.get = function (component, filename) {
         if (filename === void 0) { filename = ""; }
-        return this.logger.child({
+        // return existing component logger if exists
+        var componentLogger = this.componentLoggers[component];
+        if (componentLogger) {
+            return componentLogger;
+        }
+        // create a new child component logger
+        componentLogger = this.logger.child({
             component: component,
             filename: filename,
         });
+        this.componentLoggers[component] = componentLogger;
+        return componentLogger;
     };
     Logger.prototype.addStream = function (stream) {
         this.logger.addStream(stream);
@@ -38,7 +47,18 @@ var Logger = /** @class */ (function () {
         this.logger.addSerializers(serializers);
     };
     Logger.prototype.setLevel = function (level) {
-        this.logger.level(level.toLowerCase());
+        var _this = this;
+        var bunyanLevel = level.toLowerCase();
+        // set main logger level
+        this.logger.level(bunyanLevel);
+        // also update component logger levels
+        Object.keys(this.componentLoggers).forEach(function (componentLoggerName) {
+            var componentLogger = _this.componentLoggers[componentLoggerName];
+            if (!componentLogger) {
+                return;
+            }
+            componentLogger.level(bunyanLevel);
+        });
     };
     return Logger;
 }());
