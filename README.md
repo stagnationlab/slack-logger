@@ -6,7 +6,7 @@
 [![Version](https://img.shields.io/npm/v/slack-logger.svg)](http://npm.im/slack-logger)
 [![License](https://img.shields.io/npm/l/slack-logger.svg)](http://opensource.org/licenses/MIT)
 
-**Slack logger that sends pretty formatted messages to a Slack channel.**
+**Sends pretty formatted messages to a Slack channel.**
 
 ![Example](https://raw.githubusercontent.com/stagnationlab/slack-logger/master/examples/example.jpg)
 

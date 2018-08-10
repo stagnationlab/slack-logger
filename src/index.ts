@@ -121,7 +121,7 @@ export const levelColorMap: LevelColorMap = {
 export interface MessageHandler {
   getName(): string;
   getDescription(): string;
-  handleMessage(message: SlackBotNormalMessage, logger: SlackLogger): void;
+  handleMessage(message: SlackBotNormalMessage, logger: SlackLogger): Promise<void>;
 }
 
 // tslint:disable-next-line:max-classes-per-file
@@ -196,7 +196,7 @@ export default class SlackLogger extends Transform {
     this.addMessageHandler(new HelpMessageHandler());
 
     // listen for incoming messages
-    this.bot.on("message", message => this.onMessage(message));
+    this.bot.on("message", async message => this.onMessage(message));
   }
 
   public get isConnected() {
@@ -405,7 +405,7 @@ export default class SlackLogger extends Transform {
     }
   }
 
-  public onMessage(message: SlackBotMessage) {
+  public async onMessage(message: SlackBotMessage) {
     // only handle normal messages
     if (message.type !== "message" || typeof message.text !== "string") {
       return;
@@ -437,7 +437,7 @@ export default class SlackLogger extends Transform {
     }
 
     // handle supported messages
-    messageHandler.handleMessage(message, this);
+    await messageHandler.handleMessage(message, this);
   }
 
   protected formatSource(basePath: string, source: string) {

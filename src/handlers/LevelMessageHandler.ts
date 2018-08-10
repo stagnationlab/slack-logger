@@ -20,7 +20,7 @@ export default class LevelMessageHandler implements MessageHandler {
     )}\`, for example \`level trace\`)`;
   }
 
-  public handleMessage(message: SlackBotNormalMessage, logger: SlackLogger) {
+  public async handleMessage(message: SlackBotNormalMessage, logger: SlackLogger) {
     // split the message text into words and compile list of supported levels
     const tokens = message.text.split(" ");
     const supportedLevels = this.getSupportedLevels();

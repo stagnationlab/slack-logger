@@ -10,7 +10,7 @@ export default class HelpMessageHandler implements MessageHandler {
     return "provides help about available commands";
   }
 
-  public handleMessage(_message: SlackBotNormalMessage, logger: SlackLogger) {
+  public async handleMessage(_message: SlackBotNormalMessage, logger: SlackLogger) {
     const messageHandlers = logger.getMessageHandlers();
 
     const response = messageHandlers

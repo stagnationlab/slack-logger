@@ -185,7 +185,9 @@ var SlackLogger = /** @class */ (function (_super) {
         // register built-in message handlers
         _this.addMessageHandler(new HelpMessageHandler_1.default());
         // listen for incoming messages
-        _this.bot.on("message", function (message) { return _this.onMessage(message); });
+        _this.bot.on("message", function (message) { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
+            return [2 /*return*/, this.onMessage(message)];
+        }); }); });
         return _this;
     }
     Object.defineProperty(SlackLogger.prototype, "isConnected", {
@@ -343,31 +345,40 @@ var SlackLogger = /** @class */ (function (_super) {
         }
     };
     SlackLogger.prototype.onMessage = function (message) {
-        // only handle normal messages
-        if (message.type !== "message" || typeof message.text !== "string") {
-            return;
-        }
-        // attempt to get channel info by name
-        var channel = this.getChannelById(message.channel);
-        // ignore message if no such channel was found
-        if (!channel) {
-            return;
-        }
-        // ignore messages from wrong channels
-        if (channel.name !== this.options.channel) {
-            return;
-        }
-        // split the message into tokens and use the first word as the name of the command
-        var tokens = message.text.split(" ");
-        var name = tokens[0];
-        // attempt to find the message handler
-        var messageHandler = this.getMessageHandlerByName(name);
-        // ignore unsupported messages
-        if (!messageHandler) {
-            return;
-        }
-        // handle supported messages
-        messageHandler.handleMessage(message, this);
+        return __awaiter(this, void 0, void 0, function () {
+            var channel, tokens, name, messageHandler;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        // only handle normal messages
+                        if (message.type !== "message" || typeof message.text !== "string") {
+                            return [2 /*return*/];
+                        }
+                        channel = this.getChannelById(message.channel);
+                        // ignore message if no such channel was found
+                        if (!channel) {
+                            return [2 /*return*/];
+                        }
+                        // ignore messages from wrong channels
+                        if (channel.name !== this.options.channel) {
+                            return [2 /*return*/];
+                        }
+                        tokens = message.text.split(" ");
+                        name = tokens[0];
+                        messageHandler = this.getMessageHandlerByName(name);
+                        // ignore unsupported messages
+                        if (!messageHandler) {
+                            return [2 /*return*/];
+                        }
+                        // handle supported messages
+                        return [4 /*yield*/, messageHandler.handleMessage(message, this)];
+                    case 1:
+                        // handle supported messages
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
     };
     SlackLogger.prototype.formatSource = function (basePath, source) {
         return path.relative(basePath, source).replace(/\\/g, "/");

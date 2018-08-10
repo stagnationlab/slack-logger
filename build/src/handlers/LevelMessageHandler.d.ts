@@ -8,6 +8,6 @@ export default class LevelMessageHandler implements MessageHandler {
     constructor(options: LevelMessageHandlerOptions);
     getName(): string;
     getDescription(): string;
-    handleMessage(message: SlackBotNormalMessage, logger: SlackLogger): void;
+    handleMessage(message: SlackBotNormalMessage, logger: SlackLogger): Promise<void>;
     getSupportedLevels(): string[];
 }

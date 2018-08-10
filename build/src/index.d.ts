@@ -84,7 +84,7 @@ export declare const levelColorMap: LevelColorMap;
 export interface MessageHandler {
     getName(): string;
     getDescription(): string;
-    handleMessage(message: SlackBotNormalMessage, logger: SlackLogger): void;
+    handleMessage(message: SlackBotNormalMessage, logger: SlackLogger): Promise<void>;
 }
 export default class SlackLogger extends Transform {
     readonly isEnabled: boolean;
@@ -110,7 +110,7 @@ export default class SlackLogger extends Transform {
     write(data: {}): boolean;
     end(): boolean;
     post(message: string, options?: PostMessageParams): void;
-    onMessage(message: SlackBotMessage): void;
+    onMessage(message: SlackBotMessage): Promise<void>;
     protected formatSource(basePath: string, source: string): string;
     protected getDateTime(): string;
 }

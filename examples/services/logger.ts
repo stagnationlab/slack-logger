@@ -40,7 +40,7 @@ slackLogger.addMessageHandler(
 slackLogger.addMessageHandler({
   getName: () => "test",
   getDescription: () => "triggers some log messages for testing changing log level",
-  handleMessage: (_message, _logger) => {
+  handleMessage: async (_message, _logger) => {
     const log = logger.get("test", __filename);
 
     log.info("info message");
@@ -53,7 +53,7 @@ slackLogger.addMessageHandler({
 slackLogger.addMessageHandler({
   getName: () => "restart",
   getDescription: () => "restarts the application",
-  handleMessage: (_message, log) => {
+  handleMessage: async (_message, log) => {
     log.post("restarting the application..");
 
     // restart();
