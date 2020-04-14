@@ -14,6 +14,6 @@ script:
   - yarn build
   - yarn lint
   - yarn prettier-check
-  - yarn coverage
-after_success:
-  - yarn coveralls
+#   - yarn coverage
+# after_success:
+#   - yarn coveralls
