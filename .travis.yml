@@ -10,10 +10,10 @@ branches:
   only:
     - master
 script:
-  - yarn install
-  - yarn build
-  - yarn lint
-  - yarn prettier-check
+  - npm install
+  - npm build
+  - npm run lint
+  - npm run prettier-check
 #   - yarn coverage
 # after_success:
 #   - yarn coveralls
