@@ -107,4 +107,4 @@ interface ConfigurationAnswers {
   // setTimeout(() => {
   //   process.exit(0);
   // }, 1000);
-})().catch(error => console.error(error));
+})().catch((error) => console.error(error));

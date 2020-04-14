@@ -59,7 +59,7 @@ log.info(
 
 Take a look at the examples folder. It shows how to use the library for custom manual integrations, using it with Bunyan and Winston and also using the provided Logger class that uses Bunyan.
 
-The examples can be run with `yarn start`. They use a [.env](https://www.npmjs.com/package/dotenv) file for configuration, a `.env-example` file is provided (just copy it to `.env` file and change accordingly). Alternatively is the configuration file does not exist, the `yarn start` script will ask for the details in the console and generates the configuration file.
+The examples can be run with `npm start`. They use a [.env](https://www.npmjs.com/package/dotenv) file for configuration, a `.env-example` file is provided (just copy it to `.env` file and change accordingly). Alternatively is the configuration file does not exist, the `npm start` script will ask for the details in the console and generates the configuration file.
 
 ## Adding custom message handlers
 
@@ -102,10 +102,10 @@ logger.addStream({
 
 ## Commands
 
-- `yarn start` to run the examples (prompts for configuration and choice of example).
-- `yarn build` to build the production version.
-- `yarn test` to run tests without code coverage.
-- `yarn coverage` to run tests with code coverage.
-- `yarn lint` to lint the codebase.
-- `yarn prettier` to run prettier.
-- `yarn audit` to run all pre-commit checks (prettier, build, lint, test). Run this before pull requests.
+- `npm start` to run the examples (prompts for configuration and choice of example).
+- `npm build` to build the production version.
+- `npm test` to run tests without code coverage.
+- `npm run coverage` to run tests with code coverage.
+- `npm run lint` to lint the codebase.
+- `npm run prettier` to run prettier.
+- `npm run audit` to run all pre-commit checks (prettier, build, lint, test). Run this before pull requests.

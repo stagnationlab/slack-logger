@@ -196,7 +196,7 @@ export default class SlackLogger extends Transform {
     this.addMessageHandler(new HelpMessageHandler());
 
     // listen for incoming messages
-    this.bot.on("message", async message => this.onMessage(message));
+    this.bot.on("message", async (message) => this.onMessage(message));
   }
 
   public get isConnected() {
@@ -208,7 +208,7 @@ export default class SlackLogger extends Transform {
   }
 
   public getMessageHandlerByName(name: string): MessageHandler | undefined {
-    return this.messageHandlers.find(item => item.getName() === name);
+    return this.messageHandlers.find((item) => item.getName() === name);
   }
 
   public getMessageHandlers(): MessageHandler[] {
@@ -220,7 +220,7 @@ export default class SlackLogger extends Transform {
       return undefined;
     }
 
-    return this.channels.find(channel => channel.id === id);
+    return this.channels.find((channel) => channel.id === id);
   }
 
   public getChannelByName(name: string): SlackBotChannel | undefined {
@@ -228,7 +228,7 @@ export default class SlackLogger extends Transform {
       return undefined;
     }
 
-    return this.channels.find(channel => channel.name === name);
+    return this.channels.find((channel) => channel.name === name);
   }
 
   public sendMessage(userInfo: MessageInfo) {
@@ -290,7 +290,7 @@ export default class SlackLogger extends Transform {
     if (info.error && info.error.stack) {
       text += `\n${info.error.stack
         .split("\n")
-        .map(line => `> ${line}`)
+        .map((line) => `> ${line}`)
         .join("\n")}`;
     }
 

@@ -53,6 +53,6 @@ export default class LevelMessageHandler implements MessageHandler {
   }
 
   public getSupportedLevels() {
-    return Object.keys(LogLevel).map(level => level.toLowerCase());
+    return Object.keys(LogLevel).map((level) => level.toLowerCase());
   }
 }

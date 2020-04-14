@@ -51,7 +51,7 @@ export default class Logger {
     this.logger.level(bunyanLevel);
 
     // also update component logger levels
-    Object.keys(this.componentLoggers).forEach(componentLoggerName => {
+    Object.keys(this.componentLoggers).forEach((componentLoggerName) => {
       const componentLogger = this.componentLoggers[componentLoggerName];
 
       if (!componentLogger) {

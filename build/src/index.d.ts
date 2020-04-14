@@ -88,14 +88,14 @@ export interface MessageHandler {
 }
 export default class SlackLogger extends Transform {
     readonly isEnabled: boolean;
-    readonly objectMode: boolean;
+    readonly objectMode = true;
     private isOpen;
     private readonly options;
     private readonly bot;
     private readonly messageHandlers;
     private channels;
     constructor(options: SlackLogOptions);
-    readonly isConnected: boolean;
+    get isConnected(): boolean;
     addMessageHandler(messageHandler: MessageHandler): void;
     getMessageHandlerByName(name: string): MessageHandler | undefined;
     getMessageHandlers(): MessageHandler[];
