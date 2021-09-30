@@ -142,7 +142,6 @@ export default class SlackLogger extends Transform {
     // build options
     this.options = {
       version: "",
-      token: "",
       name: "Slack Logger",
       channel: "general",
       iconUrl: "https://image.ibb.co/iOSThT/log_local.png",
@@ -276,9 +275,9 @@ export default class SlackLogger extends Transform {
     // convert user data to YAML
     const userDataYaml =
       Object.keys(info.userData).length > 0
-        ? yaml.safeDump(info.userData, {
+        ? yaml.dump(info.userData, {
             skipInvalid: true,
-            noRefs: true,
+            // noRefs: true,
             noCompatMode: true,
           })
         : "";
@@ -400,7 +399,9 @@ export default class SlackLogger extends Transform {
         icon_url: this.options.iconUrl,
         ...options,
       });
-    } catch (error) {
+    } catch (e) {
+      const error = e as Error;
+
       console.warn(`posting "${message}" to slack failed (${error.message})`);
     }
   }

@@ -6,6 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var logger_1 = __importDefault(require("./services/logger"));
 // use the logger.get(componentName, filename) in each file to log for a specific component
 var log = logger_1.default.get("register", __filename);
+var arr = [1, "a"];
+arr[2] = arr;
 // logging message and info separately is recommended as the info gets nicely formatted and message becomes searchable
 log.error({
     success: false,
@@ -15,5 +17,6 @@ log.error({
         email: "jack@daniels.com",
     },
     error: new Error("Duplicate email: jack@daniels.com"),
+    loop: arr,
 }, "registering user failed");
 //# sourceMappingURL=4-example-logger.js.map

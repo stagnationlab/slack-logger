@@ -129,9 +129,9 @@ export default class ConsoleLog extends Transform {
 
   private static formatUserData(data: Data): string {
     // render user data as yaml making it easier to read by humans
-    const formattedData = yaml.safeDump(data, {
+    const formattedData = yaml.dump(data, {
       skipInvalid: true,
-      noRefs: true,
+      // noRefs: true,
       noCompatMode: true,
     });
 
