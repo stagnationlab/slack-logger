@@ -1,11 +1,11 @@
 {
   "name": "slack-logger",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "Bunyan-compatible logger that send pretty formatted messages to a Slack channel.",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
   "scripts": {
-    "start": "npm build && node build/examples",
+    "start": "npm run build && node build/examples",
     "build": "npm run tidy:build && tsc",
     "lint": "tslint --project tsconfig.json --format codeFrame",
     "lint-fix": "npm run lint --fix",
@@ -17,7 +17,7 @@
     "test": "jest",
     "test-watch": "jest --watch --collectCoverage",
     "coverage": "npm run tidy:coverage && jest --collectCoverage",
-    "validate": "npm run prettier && npm build && npm run lint && npm test",
+    "validate": "npm run prettier && npm run build && npm run lint && npm test",
     "coveralls": "cat ./coverage/lcov.info | coveralls"
   },
   "repository": {
