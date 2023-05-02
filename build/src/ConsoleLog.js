@@ -27,7 +27,11 @@ var __assign = (this && this.__assign) || function () {
 };
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -61,7 +65,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ColorGroup = exports.LogLevel = void 0;
-var style = __importStar(require("ansi-styles"));
+var ansi_styles_1 = __importDefault(require("ansi-styles"));
 var chalk_1 = __importDefault(require("chalk"));
 var yaml = __importStar(require("js-yaml"));
 var moment_1 = __importDefault(require("moment"));
@@ -107,7 +111,7 @@ var ConsoleLog = /** @class */ (function (_super) {
         var result = new Array(padLength + 1).join(" ") + str;
         // make sure the total length does not succeed the requested padding
         if (result.length > padding) {
-            result = ".." + result.substring(result.length - padding + 2);
+            result = "..".concat(result.substring(result.length - padding + 2));
         }
         return result;
     };
@@ -115,9 +119,9 @@ var ConsoleLog = /** @class */ (function (_super) {
         // format level text and background color
         var levelName = ConsoleLog.levelNameMap[level];
         var _a = ConsoleLog.levelColorMap[levelName], levelBgColor = _a[0], levelTextColor = _a[1];
-        var renderedLevelName = " " + levelName.toUpperCase() + " ";
+        var renderedLevelName = " ".concat(levelName.toUpperCase(), " ");
         var levelPadding = 7;
-        return "" + levelBgColor.open + levelTextColor.open + ConsoleLog.pad(renderedLevelName, levelPadding) + levelTextColor.close + levelBgColor.close;
+        return "".concat(levelBgColor.open).concat(levelTextColor.open).concat(ConsoleLog.pad(renderedLevelName, levelPadding)).concat(levelTextColor.close).concat(levelBgColor.close);
     };
     ConsoleLog.prototype.write = function (data) {
         var message = this.formatMessage(data);
@@ -125,13 +129,13 @@ var ConsoleLog = /** @class */ (function (_super) {
             this.emit("data", message);
         }
         // write to standard output
-        process.stdout.write(message + "\n");
+        process.stdout.write("".concat(message, "\n"));
         return true;
     };
-    ConsoleLog.prototype.end = function () {
-        this.emit("end");
-        return true;
-    };
+    // public end(): boolean {
+    //   this.emit("end");
+    //   return true;
+    // }
     ConsoleLog.prototype.formatMessage = function (data) {
         var name = data.name, component = data.component, level = data.level, msg = data.msg, time = data.time, hostname = data.hostname, pid = data.pid, v = data.v, version = data.version, err = data.err, err2 = data.error, filename = data.filename, src = data.src, userData = __rest(data, ["name", "component", "level", "msg", "time", "hostname", "pid", "v", "version", "err", "error", "filename", "src"]);
         // use component as the filtered name if exists, name otherwise
@@ -150,7 +154,7 @@ var ConsoleLog = /** @class */ (function (_super) {
             return undefined;
         }
         // use the src with filename and line if available (dev only)
-        var filenameToFormat = src ? src.file + ":" + src.line : filename;
+        var filenameToFormat = src ? "".concat(src.file, ":").concat(src.line) : filename;
         // format values
         var formattedTime = (0, moment_1.default)(time).format(this.options.dateFormat);
         var formattedLevel = ConsoleLog.formatLevel(level);
@@ -173,28 +177,28 @@ var ConsoleLog = /** @class */ (function (_super) {
         // replace the tokens in the message format
         var tokenNames = Object.keys(tokensMap);
         var message = tokenNames.reduce(function (formattedMessage, tokenName) {
-            var regexp = new RegExp("%" + tokenName, "g");
+            var regexp = new RegExp("%".concat(tokenName), "g");
             var replacement = tokensMap[tokenName];
             return formattedMessage.replace(regexp, replacement);
-        }, this.options.messageFormat + "\n");
+        }, "".concat(this.options.messageFormat, "\n"));
         // append error if exists and enabled
         if (this.options.showError && error) {
             if (error.stack) {
-                message += chalk_1.default.bgRed(chalk_1.default.white(error.stack)) + "\n";
+                message += "".concat(chalk_1.default.bgRed(chalk_1.default.white(error.stack)), "\n");
             }
             // handle details from DetailedError
             if (error.details) {
-                message += ConsoleLog.formatUserData(error.details) + "\n";
+                message += "".concat(ConsoleLog.formatUserData(error.details), "\n");
             }
         }
         // append user data if exists and enabled
         if (this.options.showUserData && Object.keys(userData).length > 0) {
-            message += ConsoleLog.formatUserData(userData) + "\n";
+            message += "".concat(ConsoleLog.formatUserData(userData), "\n");
         }
         return message;
     };
     ConsoleLog.prototype.getColor = function (group, name) {
-        var id = group + "." + name;
+        var id = "".concat(group, ".").concat(name);
         var escapeCodePair = this.groupColorMap[id];
         // return the color if already exists
         if (escapeCodePair !== undefined) {
@@ -214,35 +218,35 @@ var ConsoleLog = /** @class */ (function (_super) {
     };
     ConsoleLog.prototype.formatName = function (name) {
         var color = this.getColor(ColorGroup.NAME, name);
-        return "" + color.open + ConsoleLog.pad(name, this.options.namePadding) + color.close;
+        return "".concat(color.open).concat(ConsoleLog.pad(name, this.options.namePadding)).concat(color.close);
     };
     ConsoleLog.prototype.formatComponent = function (component) {
         var color = this.getColor(ColorGroup.COMPONENT, component);
-        return "" + color.open + ConsoleLog.pad(component, this.options.componentPadding) + color.close;
+        return "".concat(color.open).concat(ConsoleLog.pad(component, this.options.componentPadding)).concat(color.close);
     };
     ConsoleLog.prototype.formatFilename = function (basePath, filename) {
         return ConsoleLog.pad(path.relative(basePath, filename).replace(/\\/g, "/"), this.options.filenamePadding);
     };
     // order of colors to use for component names
     ConsoleLog.componentColors = [
-        style.green,
-        style.green,
-        style.magenta,
-        style.cyan,
-        style.red,
-        style.blue,
-        style.white,
-        style.yellow,
-        style.gray,
+        ansi_styles_1.default.green,
+        ansi_styles_1.default.green,
+        ansi_styles_1.default.magenta,
+        ansi_styles_1.default.cyan,
+        ansi_styles_1.default.red,
+        ansi_styles_1.default.blue,
+        ansi_styles_1.default.white,
+        ansi_styles_1.default.yellow,
+        ansi_styles_1.default.gray,
     ];
     // level background colors map
     ConsoleLog.levelColorMap = (_a = {},
-        _a[LogLevel.FATAL] = [style.bgMagenta, style.white],
-        _a[LogLevel.ERROR] = [style.bgRed, style.white],
-        _a[LogLevel.WARN] = [style.bgYellow, style.black],
-        _a[LogLevel.INFO] = [style.reset, style.white],
-        _a[LogLevel.DEBUG] = [style.bgCyan, style.black],
-        _a[LogLevel.TRACE] = [style.bgBlack, style.white],
+        _a[LogLevel.FATAL] = [ansi_styles_1.default.bgMagenta, ansi_styles_1.default.white],
+        _a[LogLevel.ERROR] = [ansi_styles_1.default.bgRed, ansi_styles_1.default.white],
+        _a[LogLevel.WARN] = [ansi_styles_1.default.bgYellow, ansi_styles_1.default.black],
+        _a[LogLevel.INFO] = [ansi_styles_1.default.reset, ansi_styles_1.default.white],
+        _a[LogLevel.DEBUG] = [ansi_styles_1.default.bgCyan, ansi_styles_1.default.black],
+        _a[LogLevel.TRACE] = [ansi_styles_1.default.bgBlack, ansi_styles_1.default.white],
         _a);
     // numeric level names map
     ConsoleLog.levelNameMap = {

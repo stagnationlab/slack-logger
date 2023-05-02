@@ -1,6 +1,5 @@
 # Slack logger nodejs library
 
-[![Travis](https://img.shields.io/travis/stagnationlab/slack-logger.svg)](https://travis-ci.org/stagnationlab/slack-logger)
 [![Coverage](https://img.shields.io/coveralls/stagnationlab/slack-logger.svg)](https://coveralls.io/github/stagnationlab/slack-logger)
 [![Downloads](https://img.shields.io/npm/dm/slack-logger.svg)](http://npm-stat.com/charts.html?package=slack-logger&from=2018-08-01)
 [![Version](https://img.shields.io/npm/v/slack-logger.svg)](http://npm.im/slack-logger)

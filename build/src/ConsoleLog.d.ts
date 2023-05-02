@@ -48,7 +48,7 @@ export interface TokensMap {
     version: string;
     v: string;
 }
-export declare type TokenMapKey = keyof TokensMap;
+export type TokenMapKey = keyof TokensMap;
 export declare enum ColorGroup {
     NAME = 0,
     COMPONENT = 1
@@ -65,7 +65,6 @@ export default class ConsoleLog extends Transform {
     private static pad;
     private static formatLevel;
     write(data: {}): boolean;
-    end(): boolean;
     private formatMessage;
     private getColor;
     private formatName;

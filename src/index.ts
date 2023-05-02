@@ -380,11 +380,11 @@ export default class SlackLogger extends Transform {
     return true;
   }
 
-  public end(): boolean {
-    this.emit("end");
+  // public end(): this {
+  //   this.emit("end");
 
-    return true;
-  }
+  //   return this;
+  // }
 
   public post(message: string, options: PostMessageParams = {}) {
     // just ignore post requests if no bot was created

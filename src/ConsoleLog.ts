@@ -1,4 +1,4 @@
-import * as style from "ansi-styles";
+import style from "ansi-styles";
 // tslint:disable-next-line:no-submodule-imports
 import { EscapeCode } from "ansi-styles/escape-code";
 import chalk from "chalk";
@@ -176,11 +176,11 @@ export default class ConsoleLog extends Transform {
     return true;
   }
 
-  public end(): boolean {
-    this.emit("end");
+  // public end(): boolean {
+  //   this.emit("end");
 
-    return true;
-  }
+  //   return true;
+  // }
 
   private formatMessage(data: Data): string | undefined {
     const {
