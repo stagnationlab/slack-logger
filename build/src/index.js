@@ -29,11 +29,7 @@ var __assign = (this && this.__assign) || function () {
 };
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -65,7 +61,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (g && (g = 0, op[0] && (_ = 0)), _) try {
+        while (_) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -260,23 +256,23 @@ var SlackLogger = /** @class */ (function (_super) {
             ? this.options.levelIconUrlMap[info.level]
             : this.options.levelIconUrlMap[LogLevel.INFO];
         var color = exports.levelColorMap[info.level] ? exports.levelColorMap[info.level] : exports.levelColorMap[LogLevel.INFO];
-        var rawSource = info.src ? "".concat(info.src.file, ":").concat(info.src.line ? ":".concat(info.src.line) : "") : undefined;
+        var rawSource = info.src ? info.src.file + ":" + (info.src.line ? ":" + info.src.line : "") : undefined;
         var formattedSource = rawSource ? this.formatSource(this.options.basePath, rawSource) : undefined;
         // add date to footer
         var footer = this.getDateTime();
         // add source to footer if exists
         if (formattedSource) {
-            footer += " \u2022 ".concat(formattedSource);
+            footer += " \u2022 " + formattedSource;
         }
         // use either version provided in the method call or in the options
         var version = info.version || this.options.version;
         // add version if set
         if (version.length > 0) {
-            footer += " \u2022 v".concat(version);
+            footer += " \u2022 v" + version;
         }
         // add hostname if set
         if (typeof info.hostname === "string" && info.hostname.length > 0) {
-            footer += " \u2022 ".concat(info.hostname);
+            footer += " \u2022 " + info.hostname;
         }
         // convert user data to YAML
         var userDataYaml = Object.keys(info.userData).length > 0
@@ -287,13 +283,13 @@ var SlackLogger = /** @class */ (function (_super) {
             })
             : "";
         // set text to formatted yaml
-        var text = userDataYaml.length > 0 ? "```".concat(userDataYaml, "```") : "";
+        var text = userDataYaml.length > 0 ? "```" + userDataYaml + "```" : "";
         // add stack trace if available
         if (info.error && info.error.stack) {
-            text += "\n".concat(info.error.stack
+            text += "\n" + info.error.stack
                 .split("\n")
-                .map(function (line) { return "> ".concat(line); })
-                .join("\n"));
+                .map(function (line) { return "> " + line; })
+                .join("\n");
         }
         // post the message
         this.post("", {
@@ -373,7 +369,7 @@ var SlackLogger = /** @class */ (function (_super) {
         }
         catch (e) {
             var error = e;
-            console.warn("posting \"".concat(message, "\" to slack failed (").concat(error.message, ")"));
+            console.warn("posting \"" + message + "\" to slack failed (" + error.message + ")");
         }
     };
     SlackLogger.prototype.onMessage = function (message) {

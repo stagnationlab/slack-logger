@@ -48,7 +48,7 @@ export interface TokensMap {
     version: string;
     v: string;
 }
-export type TokenMapKey = keyof TokensMap;
+export declare type TokenMapKey = keyof TokensMap;
 export declare enum ColorGroup {
     NAME = 0,
     COMPONENT = 1
