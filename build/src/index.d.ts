@@ -22,13 +22,13 @@ export declare enum LogLevel {
 /**
  * Map of log level icon urls.
  */
-export declare type LevelIconUrlMap = {
+export type LevelIconUrlMap = {
     [level in keyof typeof LogLevel]: string | undefined;
 };
 /**
  * Map of log level colors.
  */
-export declare type LevelColorMap = {
+export type LevelColorMap = {
     [level in keyof typeof LogLevel]: string | undefined;
 };
 /**

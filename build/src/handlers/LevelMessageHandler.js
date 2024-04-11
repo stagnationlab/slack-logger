@@ -14,7 +14,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -46,7 +46,7 @@ var LevelMessageHandler = /** @class */ (function () {
     };
     LevelMessageHandler.prototype.getDescription = function () {
         var supportedLevels = this.getSupportedLevels();
-        return "changes the default logging level (one of `" + supportedLevels.join("`, `") + "`, for example `level trace`)";
+        return "changes the default logging level (one of `".concat(supportedLevels.join("`, `"), "`, for example `level trace`)");
     };
     LevelMessageHandler.prototype.handleMessage = function (message, logger) {
         return __awaiter(this, void 0, void 0, function () {
@@ -56,19 +56,19 @@ var LevelMessageHandler = /** @class */ (function () {
                 supportedLevels = this.getSupportedLevels();
                 // expecting exactly two words
                 if (tokens.length !== 2) {
-                    logger.post("*level* expects the second word to be the new logging level (one of `" + supportedLevels.join("`, `") + "`)");
+                    logger.post("*level* expects the second word to be the new logging level (one of `".concat(supportedLevels.join("`, `"), "`)"));
                     return [2 /*return*/];
                 }
                 levelName = tokens[1];
                 // make sure requested level exists
                 if (supportedLevels.indexOf(levelName) === -1) {
-                    logger.post("*level* does not support `" + levelName + "`, expected one of `" + supportedLevels.join("`, `") + "`");
+                    logger.post("*level* does not support `".concat(levelName, "`, expected one of `").concat(supportedLevels.join("`, `"), "`"));
                     return [2 /*return*/];
                 }
                 newLevel = __1.LogLevel[levelName.toUpperCase()];
                 // call the level change handler
                 this.options.onLevelChange(newLevel);
-                logger.post("now logging messages with severity of `" + levelName + "` and above");
+                logger.post("now logging messages with severity of `".concat(levelName, "` and above"));
                 return [2 /*return*/];
             });
         });

@@ -1,7 +1,11 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -33,7 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -71,7 +75,7 @@ var path = __importStar(require("path"));
                 dotEnvExists = fs.existsSync(dotEnvFilename);
                 if (!!dotEnvExists) return [3 /*break*/, 2];
                 // notify of the configuration file being missing
-                console.log(chalk_1.default.bgWhite.black("\nThe .env configuration file does not exist (checked " + dotEnvFilename + ")"));
+                console.log(chalk_1.default.bgWhite.black("\nThe .env configuration file does not exist (checked ".concat(dotEnvFilename, ")")));
                 console.log(chalk_1.default.bgWhite.black("Please create one based on .env-example or answer the questions below and it will be created for you\n"));
                 return [4 /*yield*/, inquirer_1.default.prompt([
                         {
@@ -100,7 +104,7 @@ var path = __importStar(require("path"));
                     ])];
             case 1:
                 _a = _b.sent(), token = _a.token, channel = _a.channel, name = _a.name, iconUrl = _a.iconUrl;
-                dotEnvContents = ("\n      TOKEN=" + token + "\n      CHANNEL=" + channel + "\n      NAME=" + name + "\n      ICON_URL=" + iconUrl + "\n    ").replace(/^\s+/gm, "");
+                dotEnvContents = "\n      TOKEN=".concat(token, "\n      CHANNEL=").concat(channel, "\n      NAME=").concat(name, "\n      ICON_URL=").concat(iconUrl, "\n    ").replace(/^\s+/gm, "");
                 // write the file
                 fs.writeFileSync(dotEnvFilename, dotEnvContents, "utf8");
                 _b.label = 2;
@@ -131,8 +135,8 @@ var path = __importStar(require("path"));
                 ])];
             case 3:
                 exampleName = (_b.sent()).exampleName;
-                filename = path.join(__dirname, exampleName + ".js");
-                console.log("\nRunning " + chalk_1.default.bold(filename) + "\n");
+                filename = path.join(__dirname, "".concat(exampleName, ".js"));
+                console.log("\nRunning ".concat(chalk_1.default.bold(filename), "\n"));
                 require(filename);
                 return [2 /*return*/];
         }

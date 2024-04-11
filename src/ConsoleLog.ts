@@ -1,4 +1,4 @@
-import * as style from "ansi-styles";
+import style from "ansi-styles";
 // tslint:disable-next-line:no-submodule-imports
 import { EscapeCode } from "ansi-styles/escape-code";
 import chalk from "chalk";
