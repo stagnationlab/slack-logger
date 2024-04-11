@@ -79,12 +79,12 @@ var LogLevel;
     LogLevel["WARN"] = "warn";
     LogLevel["ERROR"] = "error";
     LogLevel["FATAL"] = "fatal";
-})(LogLevel = exports.LogLevel || (exports.LogLevel = {}));
+})(LogLevel || (exports.LogLevel = LogLevel = {}));
 var ColorGroup;
 (function (ColorGroup) {
     ColorGroup[ColorGroup["NAME"] = 0] = "NAME";
     ColorGroup[ColorGroup["COMPONENT"] = 1] = "COMPONENT";
-})(ColorGroup = exports.ColorGroup || (exports.ColorGroup = {}));
+})(ColorGroup || (exports.ColorGroup = ColorGroup = {}));
 var ConsoleLog = /** @class */ (function (_super) {
     __extends(ConsoleLog, _super);
     function ConsoleLog(options) {

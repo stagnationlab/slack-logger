@@ -142,7 +142,7 @@ var LogLevel;
     LogLevel["WARN"] = "WARN";
     LogLevel["ERROR"] = "ERROR";
     LogLevel["FATAL"] = "FATAL";
-})(LogLevel = exports.LogLevel || (exports.LogLevel = {}));
+})(LogLevel || (exports.LogLevel = LogLevel = {}));
 exports.levelNameMap = {
     10: LogLevel.TRACE,
     20: LogLevel.DEBUG,
